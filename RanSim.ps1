@@ -71,7 +71,7 @@ if ($mode -eq "encrypt") {
 
 elseif ($mode -eq "decrypt") {
     #find files to decrypt
-    $FilestoDecrypt = get-childitem -path $FileTargetPath\* -Include *$EncExtension -Recurse -force | where { ! $_.PSIsContainer }
+    $FilestoDecrypt = get-childitem -path $TargetPath\* -Include *$EncExtension -Recurse -force | where { ! $_.PSIsContainer }
 
     #encrypt each file
 
