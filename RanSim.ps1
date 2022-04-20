@@ -43,7 +43,7 @@ param([string]$Mode,
 
 #==== global variables ===================================================================================
 #target file types
-$TargetFiles = '*.pdf*','*.mp3*','*.xls*','*.ppt*','*.doc*','*.mpg*','*.mpeg*','*.rtf*','*.jpg*','*.jpeg*','*.png*','*.gif*'
+$TargetFiles = '*.pdf*','*.mp3*','*.xls*','*.ppt*','*.doc*','*.mpg*','*.mpeg*','*.rtf*','.txt','.csv','*.jpg*','*.jpeg*','*.png*','*.gif*'
 
 
 #END ==== global variables ===============================================================================
