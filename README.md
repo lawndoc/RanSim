@@ -20,11 +20,11 @@ This script is extremely useful for testing your defenses and backups against re
 
 ### Optional Parameters and Defaults
 
-`-TargetPath` -> C:\File Shares
+`-TargetPath` -> C:\RanSim
 
 `-Extension` -> .encrypted
 
-`-Key` -> S4Xe7C57wbNVgmUss7xUjJOoICLdaW1Zgrks4s1hN4E=
+`-Key` -> Q5KyUru6wn82hlY9k8xUjJOPIC9da41jgRkpt21jo2L=
 
 ### Other Global Variables
 
