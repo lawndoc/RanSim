@@ -28,7 +28,7 @@ This script is extremely useful for testing your defenses and backups against re
 
 ### Other Global Variables
 
-`TargetFiles` -> .pdf .mp3 .xls* .ppt* .doc* .accd* .mpg .mpeg .rtf .txt .csv .jpg .jpeg .png .gif
+`TargetFiles` -> .pdf .xls* .ppt* .doc* .accd* .rtf .txt .csv .jpg .jpeg .png .gif .avi .midi .mov mp3 .mp4 .mpeg .mpeg2 .mpeg3 .mpg .ogg
 
 ## Credits
 
