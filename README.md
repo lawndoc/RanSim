@@ -1,4 +1,4 @@
-![ASCII Logo](https://user-images.githubusercontent.com/24688343/176761856-2e1a02cf-0a72-4b5b-8f8f-5025ca9d8954.png)
+![Logo](RanSim.jpg)
 
 A ransomware simulation script written in PowerShell. It encrypts all extensions specified in the given directory and its subdirectories.
 
