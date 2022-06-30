@@ -1,8 +1,10 @@
 ![Logo](RanSim.png)
 
-A ransomware simulation script written in PowerShell. It encrypts all extensions specified in the given directory and its subdirectories.
+## Description
 
-This script is extremely useful for testing your defenses and backups against real ransomware-like activity in a controlled setting.
+RanSim is a ransomware simulation script written in PowerShell. It recurisively encrypts files in the target directory using 256-bit AES encryption.
+
+You can use RanSim to test your defenses and backups against real ransomware-like activity in a controlled setting. The same script can be used to decrypt the files if needed.
 
 ## Usage
 
