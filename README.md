@@ -1,4 +1,4 @@
-![Logo](RanSim.jpg)
+![Logo](RanSim.png)
 
 A ransomware simulation script written in PowerShell. It encrypts all extensions specified in the given directory and its subdirectories.
 
